@@ -63,5 +63,9 @@
         android:layout_height="wrap_content"
         android:text="Cerrar"
         android:id="@+id/btnCerrar"></Button>
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Regresar"
+        android:id="@+id/act2reg"/>
 </LinearLayout>

@@ -14,6 +14,11 @@ class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
+        act2reg.setOnClickListener{
+            var ventana= Intent(this,MainActivity::class.java)
+            startActivity(ventana)
+            finish()
+        }
         var extra=intent.extras
         id=extra!!.getString("id")!!
         try {

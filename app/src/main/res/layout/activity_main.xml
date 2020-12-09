@@ -8,67 +8,31 @@
     android:orientation="vertical"
     android:padding="20dp">
 ///////////////////////////////Descripcion del evento
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descricpion" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Descripción"
-        android:id="@+id/evtDes"
-        android:inputType="textImeMultiLine"
-        />
-    ///////////////////////////////Hora
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hora:" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="00:00"
-        android:inputType="time"
-        android:id="@+id/evtHour"
-        />
-    ///////////////////////////////Fecha
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fecha:" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="dd/mm/yyyy"
-        android:inputType="date"
-        android:id="@+id/evtFecha"
-        />
-    ///////////////////////////////Lugar
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Lugar:" />
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Somewhere Over The Rainbow"
-        android:id="@+id/evtLugar"
-        />
-    ///////////////////////////////BOTONES
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Insertar"
-        android:id="@+id/btnInser"/>
+        android:text="Agregar Evento"
+        android:id="@+id/btnagEvent"
+        />
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Sincronizemos"
+        android:text="Actualizar en la nube"
         android:id="@+id/btnSinc"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Funciones especiales"
+        android:id="@+id/btnesp"/>
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hoy y Mañana"
+        android:id="@+id/btn1fech"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/Lista"/>
-
+        android:id="@+id/Lista"
+        />
     //Lugar Hora Fecha Descripcion
 </LinearLayout>

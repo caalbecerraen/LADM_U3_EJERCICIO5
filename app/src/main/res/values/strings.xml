@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">LADM_U3_EJERCICIO5</string>
+    <array name="opcionesmenu">
+        <item>Descripcion</item>
+        <item>Hora</item>
+        <item>Fecha</item>
+        <item>Lugar</item>
+    </array>
+    <array name="opcionesfecha">
+        <item>Hoy</item>
+        <item>Mañana</item>
+        <item>Entre fechas</item>
+    </array>
 </resources>

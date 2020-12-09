@@ -3,14 +3,22 @@ package mx.tecnm.tepic.ladm_u3_ejercicio5
 import android.content.ContentValues
 import android.content.Intent
 import android.database.sqlite.SQLiteException
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main2.*
+import java.text.SimpleDateFormat
+import java.time.DateTimeException
+import java.util.*
+import kotlin.collections.ArrayList
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : AppCompatActivity() {
     ////////Firebase
@@ -22,53 +30,36 @@ class MainActivity : AppCompatActivity() {
     var datos=ArrayList<String>()
     var DATA= ArrayList<String>()
 
-    var idSeleccionadoEnLista=-1
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         cargarevt()
-        btnInser.setOnClickListener {
-            insertar()
+        btnagEvent.setOnClickListener {
+            var ventana= Intent(this,MainActivity4::class.java)
+            startActivity(ventana)
+            finish()
+        }
+        btn1fech.setOnClickListener {
+            var ventana= Intent(this,MainActivity6::class.java)
+            startActivity(ventana)
+            finish()
         }
         btnSinc.setOnClickListener{
             sinc()
         }
-        Lista.setOnItemClickListener {adapterView,view, i, l ->mostrarAlertEliminarActualizar(i) }
-    }
-    ////////////////////////////////////////INSERTAR
-    private fun insertar(){
-        try {
-            var trans=baseDatos.writableDatabase
-            var variables= ContentValues()
-            variables.put("DESCRIPCION",evtDes.text.toString())
-            variables.put("LUGAR",evtLugar.text.toString())
-            variables.put("FECHA",evtFecha.text.toString())
-            variables.put("HORA",evtHour.text.toString())
-
-            var respuesta =trans.insert("EVENTO",null,variables)
-            if(respuesta==-1L){
-                mensaje("FALLO AL INSERTAR")
-            }else{
-                mensaje("INSERCION EXITOSA")
-                limpiarCampos()
-            }
-            trans.close()
-        }catch (e: SQLiteException){
-            mensaje(e.message!!)
+        btnesp.setOnClickListener{
+            var ventana= Intent(this,MainActivity3::class.java)
+            startActivity(ventana)
+            finish()
         }
-        cargarevt()
-    }
-    //////////////////////////////////////////////////////////////LIMPIAR LOS CAMPOS
-    private fun limpiarCampos(){
-        evtLugar.setText("")
-        evtFecha.setText("")
-        evtDes.setText("")
-        evtHour.setText("")
+        Lista.setOnItemClickListener {adapterView,view, i, l ->mostrarAlertEliminarActualizar(i) }
     }
     //////////////////////////////////////////////////////////////RELLENAR LA LISTA
     private fun cargarevt(){
-        datos.clear()
-        listaID.clear()
+        datos.clear()/////
+        listaID.clear()////->Elimina el id 1-2-_-4-5-6
+                        /////1-2-_-4
         try{
             var trans=baseDatos.readableDatabase
             var eventos=ArrayList<String>()
@@ -111,7 +102,6 @@ class MainActivity : AppCompatActivity() {
             .setPositiveButton("OK"){d,i->d.dismiss()}
             .show()
     }
-
     private fun llamarVentanaAcualizar(idLista:String){
                 var ventana= Intent(this,MainActivity2::class.java)
                 ventana.putExtra("id",idLista)
@@ -120,7 +110,7 @@ class MainActivity : AppCompatActivity() {
                 finish()
     }
     private fun sinc(){
-        DATA.clear()
+        DATA.clear()///Traer Firestore
         BDF.collection("evento").addSnapshotListener { querySnapshot, firebaseFirestoreException ->
             if (firebaseFirestoreException != null) {
                 mensaje("Error! No se pudo recuperar data desde FireBase")
@@ -128,8 +118,8 @@ class MainActivity : AppCompatActivity() {
             }
             var cadena = ""
             for (registro in querySnapshot!!) {
-                cadena = registro.id.toString()
-                DATA.add(cadena)
+                cadena = registro.id.toString()////IDS
+                DATA.add(cadena)///.....IDS.....IDS
             }
             try {
                 var trans = baseDatos.readableDatabase
@@ -137,7 +127,8 @@ class MainActivity : AppCompatActivity() {
                 if (respuesta.moveToFirst()) {
                     do{
                         BDF.waitForPendingWrites()
-                        if (DATA.any{respuesta.getString(0).toString()==it}) {
+                        if (DATA.any{respuesta.getString(0).toString()==it})//////id de la tabla
+                        {
                             DATA.remove(respuesta.getString(0).toString())
                             BDF.collection("evento")
                                 .document(respuesta.getString(0))
@@ -184,6 +175,9 @@ class MainActivity : AppCompatActivity() {
                 mensaje("ERROR: " + e.message!!)
             }
             var el = DATA.subtract(listaID)
+            //////1,2,3,4 data(fire)
+            /////1,2,4      (sql)
+            //////3
             if (el.isEmpty()) {
 
             } else {
@@ -209,11 +203,12 @@ class MainActivity : AppCompatActivity() {
 
             }else{
                 mensaje("Se logro eliminar con éxito el ID${idEliminar}")
-                cargarevt()
+                cargarevt()////
             }
             trans.close()
         }catch (e:SQLiteException){
             mensaje(e.message!!)
         }
     }
+
 }
